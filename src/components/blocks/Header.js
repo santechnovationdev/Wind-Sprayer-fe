@@ -1,131 +1,96 @@
 'use client'
 
 import { useContext, useState } from 'react'
-import {
-  Dialog,
-  DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from '@headlessui/react'
-import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
-// import Logo from '../../assets/Logo.png'
+import { Dialog, DialogPanel, PopoverGroup } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { DContext } from '../../context/Datacontext'
 
-const products = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
-const callsToAction = [
-  { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
-
-export default function Example() {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const {isAuth, handleLogout} = useContext(DContext)
+  const { isAuth, handleLogout } = useContext(DContext)
 
   return (
-    <header className="bg-primary-50 sticky top-0 z-50">
-      <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-        <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">PREGNENCY CARE</span>
-            {/* <img
-              alt="App Logo"
-              src={Logo}
-              className="h-[80px] w-auto"
-            /> */}
-            <h1 className='font-bold text-primary-400'>PREGNENCY CARE</h1>
-          </a>
-        </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
-          </button>
-        </div>
-        <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 shadow-lg">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 md:p-6">
+        <a href="/" className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-full bg-emerald-500/80 flex items-center justify-center text-white font-black">W</div>
+          <div>
+            <p className="text-lg font-bold tracking-tight text-white">Wind Sprayer</p>
+            <p className="text-xs text-cyan-200">Smart farm automation</p>
+          </div>
+        </a>
 
-          <a href="/" className="text-sm/6 font-semibold text-gray-900">
-            Home
-          </a>
-
-        </PopoverGroup>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {
-          isAuth?<button className='rounded-full px-4 py-1 text-md bg-secondary-500 hover:bg-secondary-600 text-white' onClick={handleLogout}>Logout</button>
-          :<button className='rounded-full px-4 py-1 text-md bg-secondary-500 hover:bg-secondary-600 text-white' onClick={()=>window.location.href="/login"} >Login</button>
-          }
+        <div className="hidden md:flex items-center gap-8">
+          <a href="/" className="text-sm font-medium text-slate-200 hover:text-white">Home</a>
         </div>
+
+        <div className="hidden md:flex items-center gap-2">
+          {isAuth ? (
+            <button
+              onClick={handleLogout}
+              className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => (window.location.href = '/login')}
+              className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-600 transition"
+            >
+              Login
+            </button>
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(true)}
+          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20"
+        >
+          <span className="sr-only">Open main menu</span>
+          <Bars3Icon className="h-6 w-6" />
+        </button>
       </nav>
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-        <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">PREGNENCY CARE</span>
-              {/* <img
-                alt=""
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
-              /> */}
-            <h1 className='font-bold text-primary-400'>PREGNENCY CARE</h1>
-            </a>
+
+      <Dialog open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} className="md:hidden">
+        <div className="fixed inset-0 bg-slate-900/70" aria-hidden="true" />
+        <DialogPanel className="fixed right-0 top-0 h-full w-full max-w-sm bg-slate-950 p-5 shadow-2xl">
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-lg font-semibold text-white">Menu</p>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-white hover:bg-white/20"
             >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
+              <XMarkIcon className="h-5 w-5" />
             </button>
           </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
 
-                <a
-                  href="/"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Home
-                </a>
-                <a
-                  href="/dashboard"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Dashboard
-                </a>
+          <div className="space-y-4">
+            <a href="/" className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-100 hover:bg-slate-800">Home</a>
+          </div>
 
-              </div>
-              <div className="py-6">
-                <button className='rounded-full px-4 py-1 text-md bg-secondary-500 hover:bg-secondary-600 text-white' onClick={handleLogout}>Logout</button>
-              </div>
-            </div>
+          <div className="mt-6">
+            {isAuth ? (
+              <button
+                onClick={handleLogout}
+                className="w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-600"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => (window.location.href = '/login')}
+                className="w-full rounded-xl bg-cyan-500 px-4 py-3 text-sm font-semibold text-white hover:bg-cyan-600"
+              >
+                Login
+              </button>
+            )}
           </div>
         </DialogPanel>
       </Dialog>
     </header>
   )
 }
+

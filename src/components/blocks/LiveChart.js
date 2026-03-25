@@ -153,9 +153,9 @@ const LiveChart = ({
         <div className="w-full mx-auto rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300">
 
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl bg-gradient-to-r from-primary-50 to-white border-b border-gray-100">
+            <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-700 border-b border-gray-100">
 
-                <h3 className="font-semibold text-sm md:text-base text-gray-700 tracking-wide">
+                <h3 className="font-semibold text-sm md:text-base text-white tracking-wide">
                     {title}
                 </h3>
 
@@ -167,17 +167,17 @@ const LiveChart = ({
                             <button
                                 onClick={downloadPNG}
                                 title="Download PNG"
-                                className="p-2 rounded-lg hover:bg-gray-100 transition"
+                                className="p-2 rounded-lg transition"
                             >
-                                <FiDownload className="text-gray-600 hover:text-black text-sm" />
+                                <FiDownload className="text-white text-sm" />
                             </button>
 
                             <button
                                 onClick={downloadPDF}
                                 title="Download PDF"
-                                className="p-2 rounded-lg hover:bg-gray-100 transition"
+                                className="p-2 rounded-lg  transition"
                             >
-                                <MdPictureAsPdf className="text-gray-600 hover:text-black text-sm" />
+                                <MdPictureAsPdf className="text-white text-sm" />
                             </button>
                         </>
                     )}
@@ -186,9 +186,9 @@ const LiveChart = ({
                         <button
                             onClick={zoomIn}
                             title="Zoom In"
-                            className="p-2 rounded-lg hover:bg-gray-100 transition"
+                            className="p-2 rounded-lg  transition"
                         >
-                            <FiZoomIn className="text-gray-600 hover:text-black text-sm" />
+                            <FiZoomIn className="text-white text-sm" />
                         </button>
                     )}
 
@@ -196,9 +196,9 @@ const LiveChart = ({
                         <button
                             onClick={zoomOut}
                             title="Zoom Out"
-                            className="p-2 rounded-lg hover:bg-gray-100 transition"
+                            className="p-2 rounded-lg transition"
                         >
-                            <FiZoomOut className="text-gray-600 hover:text-black text-sm" />
+                            <FiZoomOut className="text-white text-sm" />
                         </button>
                     )}
 
@@ -206,9 +206,9 @@ const LiveChart = ({
                         <button
                             onClick={resetZoom}
                             title="Reset"
-                            className="p-2 rounded-lg hover:bg-gray-100 transition"
+                            className="p-2 rounded-lg  transition"
                         >
-                            <FiRefreshCw className="text-gray-600 hover:text-black text-sm" />
+                            <FiRefreshCw className="text-white text-sm" />
                         </button>
                     )}
 

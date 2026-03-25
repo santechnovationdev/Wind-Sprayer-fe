@@ -7,11 +7,12 @@ import { DContext } from './context/Datacontext';
 import LoadingPage from './components/pages/Loading';
 import Home from './components/pages/Home';
 import Header from './components/blocks/Header';
-import Footer from './components/blocks/Footer';
+import { Dashboard } from './components/pages/Dashboard';
+
 
 function App() {
 
-  const {isAuth, currentUser} = useContext(DContext)
+  const {isAuth, currentUser} = useContext(DContext) 
 
   if(isAuth===null || !currentUser){
     return <LoadingPage/>
@@ -20,7 +21,7 @@ function App() {
   return (
   
     <div className="container-fluid p-0">
-      <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={isAuth ? <Home /> : <Login />  } />
         <Route path="/dashboard" element={<Home/>} />

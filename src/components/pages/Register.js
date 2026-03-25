@@ -1,102 +1,104 @@
-import React from 'react'
-import { useState, useContext } from 'react';
-import { DContext } from '../../context/Datacontext';
-import LoginImg from '../../assets/medicine.svg'
+import React, { useState, useContext } from "react";
+import { DContext } from "../../context/Datacontext";
+import LoginImg from "../../assets/Logo.jpg";
 
 const Register = () => {
+    const { setIsAuth, setCurrentUser, BeURL } = useContext(DContext);
 
-    const {setIsAuth, setCurrentUser, BeURL} = useContext(DContext)
+    const [name, setName] = useState("");
+    const [contact, setContact] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState("");
 
-    const [name, setName] = useState('');
-    const [contact, setContact] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setError("");
 
-    const [comparePassword, setComparePassword] = useState(true)
+        if (!name || !email || !contact || !password || !confirmPassword) {
+            setError("All fields are required");
+            return;
+        }
 
-    const handleRegister = async () => {
-        setComparePassword(password===confirmPassword)
-        if(name!=="" || email!=="" || contact!=="" || password!==""){
-            if(password===confirmPassword){
-                fetch(`${BeURL}/register`, {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({ fullname: name, email, contact, password }),
-                })
-                .then(res=>res.json())
-                .then(data=>{
-                    if (data.success) {
-                        // Signup successful
-                        setIsAuth(true)
-                        setCurrentUser(data.user)
-                        setName('')
-                        setEmail('')
-                        setContact('')
-                        setPassword('')
-                        setConfirmPassword('')
-                        window.location.href="/"
-                    } else {
-                        alert(data.message)
-                    }
-                })
-                .catch(err=>{
-                    alert('Trouble in connecting to the Server! Please try again later.')
-                    console.log('Error in Register: '+err)
-                })
-        
-            }else{
-                alert('passwords not match!')
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${BeURL}/register`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ fullname: name, email, contact, password }),
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                setIsAuth(true);
+                setCurrentUser(data.user);
+                window.location.href = "/";
+            } else {
+                setError(data.message || "Registration failed");
             }
+        } catch (err) {
+            setError("Server error. Try again!");
         }
-        else{
-            alert("All fields are required!")
-        }
-    }
+    };
 
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-700 px-4 py-10">
+            <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+                <div className="text-center mb-8">
+                    <img
+                        src={LoginImg}
+                        alt="Wind Sprayer Logo"
+                        className="mx-auto h-20 w-20 rounded-full shadow-lg border border-white/20"
+                    />
+                    <h1 className="text-3xl font-bold tracking-tight text-white mt-4">Create your account</h1>
+                    <p className="mt-2 text-sm text-slate-200">Secure setup in seconds with Wind Sprayer</p>
+                </div>
 
-  return (
-    <div className='flex flex-wrap justify-center items-center min-h-[85vh]'>
-        <div className='text-center p-2'>
-            <img className='mx-auto' src={LoginImg} alt='register-illus' style={{height: '150px'}} />
-            <h1 className='text-3xl font-bold text-primary-500 my-2'>Create an Account!</h1>
-            <p className='text-base'><small>Enter all the required details and verify your Email for creating a new Account.</small></p>
+                <form onSubmit={handleRegister} className="space-y-4">
+                    {[
+                        { value: name, onChange: setName, type: 'text', placeholder: 'Full Name' },
+                        { value: contact, onChange: setContact, type: 'tel', placeholder: 'Contact Number' },
+                        { value: email, onChange: setEmail, type: 'email', placeholder: 'Email Address' },
+                        { value: password, onChange: setPassword, type: 'password', placeholder: 'Password' },
+                        { value: confirmPassword, onChange: setConfirmPassword, type: 'password', placeholder: 'Confirm Password' },
+                    ].map((field, idx) => (
+                        <div key={idx}>
+                            <label className="block text-sm text-slate-200 font-medium mb-1">{field.placeholder}</label>
+                            <input
+                                type={field.type}
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                placeholder={field.placeholder}
+                                className="w-full mt-1 p-3 rounded-xl bg-slate-900/80 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+                            />
+                        </div>
+                    ))}
+
+                    {error && <p className="text-center text-sm text-rose-400">{error}</p>}
+
+                    <button
+                        type="submit"
+                        className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
+                    >
+                        Register
+                    </button>
+                </form>
+
+                <p className="text-sm text-center text-slate-300 mt-5">
+                    Already have an account?{' '}
+                    <a href="/login" className="text-cyan-300 font-semibold hover:text-cyan-100 underline">
+                        Log in
+                    </a>
+                </p>
+            </div>
         </div>
-        <div className='text-slate-950 bg-white m-3 p-5 md:w-5/12 rounded border-[1px] border-primary-500'>
-            <h2 className='text-center text-primary-500 font-bold text-xl mb-3'>Register</h2>
-            <p className='mb-3'>Already have an account? then <a className='text-sky-600' href='/login'>Click here</a></p>
-            <form>
-            <div className="mb-3">
-                <label htmlFor="InputName" className="block text-sm/6 font-medium text-gray-900">Full Name</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} required type="text" className="p-2 rounded-2 border-[1px] rounded border-slate-400 focus:outline-secondary-500 my-2 w-full" id="InputName" placeholder="Your name"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="InputContact" className="block text-sm/6 font-medium text-gray-900">Contact</label>
-                <input value={contact} onChange={(e) => setContact(e.target.value)} required type="number" className="p-2 rounded-2 border-[1px] rounded border-slate-400 focus:outline-secondary-500 my-2 w-full" id="InputContact" placeholder="+91 9876543210"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="InputEmail" className="block text-sm/6 font-medium text-gray-900">Email address</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" className="p-2 rounded-2 border-[1px] rounded border-slate-400 focus:outline-secondary-500 my-2 w-full" id="InputEmail" placeholder="name@example.com"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="InputPassword" className="block text-sm/6 font-medium text-gray-900">Password</label>
-                <input value={password} onChange={(e) => setPassword(e.target.value)} required type="password" className="p-2 rounded-2 border-[1px] rounded border-slate-400 focus:outline-secondary-500 my-2 w-full" id="InputPassword" placeholder="••••••••"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="InputConfirmPassword" className="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
-                <input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password" className="p-2 rounded-2 border-[1px] rounded border-slate-400 focus:outline-secondary-500 my-2 w-full" id="InputConfirmPassword" required placeholder="••••••••"/>
-            </div>
-            <p className='my-2 ms-3 bagde bg-danger text-red-500'>{comparePassword? '': 'Passwords do not match'}</p>
-            <div className='d-flex justify-content-center'>
-                <button onClick={handleRegister} type='button' className='rounded-full px-4 py-1 text-md bg-primary-500 hover:bg-secondary-600 text-white'>Register <i className='bi bi-door-open'></i></button>
-            </div>
-            </form>
-        </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Register
+export default Register;
