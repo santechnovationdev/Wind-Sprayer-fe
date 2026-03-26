@@ -48,7 +48,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-700 px-4 py-10">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-950 via-primary-800 to-secondary-950 px-4 py-10">
             <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
                 <div className="text-center mb-8">
                     <img
@@ -56,8 +56,8 @@ const Register = () => {
                         alt="Wind Sprayer Logo"
                         className="mx-auto h-20 w-20 rounded-full shadow-lg border border-white/20"
                     />
-                    <h1 className="text-3xl font-bold tracking-tight text-white mt-4">Create your account</h1>
-                    <p className="mt-2 text-sm text-slate-200">Secure setup in seconds with Wind Sprayer</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-primary-200 mt-4">Create your account</h1>
+                    <p className="mt-2 text-sm text-primary-100">Secure setup in seconds with Wind Sprayer</p>
                 </div>
 
                 <form onSubmit={handleRegister} className="space-y-4">
@@ -75,7 +75,7 @@ const Register = () => {
                                 value={field.value}
                                 onChange={(e) => field.onChange(e.target.value)}
                                 placeholder={field.placeholder}
-                                className="w-full mt-1 p-3 rounded-xl bg-slate-900/80 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+                                className="w-full mt-1 p-3 rounded-xl bg-slate-900/80 border border-green-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
                             />
                         </div>
                     ))}
@@ -84,15 +84,15 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
+                        className="w-full py-3 rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
                     >
                         Register
                     </button>
                 </form>
 
-                <p className="text-sm text-center text-slate-300 mt-5">
+                <p className="text-sm text-center text-primary-100 mt-5">
                     Already have an account?{' '}
-                    <a href="/login" className="text-cyan-300 font-semibold hover:text-cyan-100 underline">
+                    <a href="/login" className="text-primary-200 font-semibold hover:text-primary-100 underline">
                         Log in
                     </a>
                 </p>

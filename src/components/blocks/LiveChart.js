@@ -153,7 +153,7 @@ const LiveChart = ({
         <div className="w-full mx-auto rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300">
 
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-700 border-b border-gray-100">
+            <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl bg-gradient-to-br from-primary-900 via-primary-700 to-secondary-900 border-b border-primary-200">
 
                 <h3 className="font-semibold text-sm md:text-base text-white tracking-wide">
                     {title}

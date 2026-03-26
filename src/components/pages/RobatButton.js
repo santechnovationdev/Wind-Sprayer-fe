@@ -283,7 +283,7 @@ export const RobatButton = () => {
     const Switch = ({ active, onClick, disabled }) => (
         <div
             onClick={!disabled ? onClick : null}
-            className={`w-14 h-7 flex items-center rounded-full p-1 transition ${active ? "bg-blue-600" : "bg-gray-600"
+            className={`w-14 h-7 flex items-center rounded-full p-1 transition ${active ? "bg-primary-600" : "bg-gray-600"
                 } ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
         >
             <div
@@ -296,18 +296,18 @@ export const RobatButton = () => {
     const movementButtons = ["forward", "backward", "right", "left"];
 
     return (
-        <div className="bg-indigo-100 px-5 py-5 rounded-xl">
+        <div className="bg-primary-100 px-5 py-5 rounded-xl">
             <div className="mx-auto space-y-6">
                 {/* HEADER */}
-                <div className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-700 rounded-2xl shadow-xl border border-gray-800 p-5 w-full">
-                    <h1 className="text-xl md:text-2xl font-bold text-center text-blue-400">
+                <div className="bg-gradient-to-br from-primary-900 via-primary-700 to-secondary-900 rounded-2xl shadow-xl border border-primary-800 p-5 w-full">
+                    <h1 className="text-xl md:text-2xl font-bold text-center text-primary-200">
                         🤖 Wind Spray Control
                     </h1>
 
-                    <p className="text-center text-gray-300 mt-2">{message}</p>
+                    <p className="text-center text-secondary-100 mt-2">{message}</p>
 
                     {timer > 0 && (
-                        <p className="text-center text-red-400 font-semibold mt-2">
+                        <p className="text-center text-secondary-200 font-semibold mt-2">
                             ⏳ Wait {timer}s
                         </p>
                     )}
@@ -316,14 +316,14 @@ export const RobatButton = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                     {/* ================= CARD 1 : MODE + SPRAYER ================= */}
                     <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-5">
-                        <h2 className="text-lg font-semibold text-blue-400 mb-4">
+                        <h2 className="text-lg font-semibold text-primary-200 mb-4">
                             Mode & Sprayer
                         </h2>
 
                         <div className="space-y-3">
                             {/* AUTO / MANUAL */}
-                            <div className="flex justify-between items-center p-3 bg-gray-800 rounded-xl">
-                                <span className="text-gray-300">
+                            <div className="flex justify-between items-center p-3 bg-primary-800 rounded-xl">
+                                <span className="text-secondary-200">
                                     Mode (Auto / Manual)
                                 </span>
                                 <Switch
@@ -334,8 +334,8 @@ export const RobatButton = () => {
                             </div>
 
                             {/* SPRAYER */}
-                            <div className="flex justify-between items-center p-3 bg-gray-800 rounded-xl">
-                                <span className="text-gray-300">Sprayer</span>
+                            <div className="flex justify-between items-center p-3 bg-primary-800 rounded-xl">
+                                <span className="text-secondary-200">Sprayer</span>
                                 <Switch
                                     active={activeButton === "sprayer"}
                                     onClick={() => handleToggle("sprayer")}
@@ -351,7 +351,7 @@ export const RobatButton = () => {
 
                     {/* ================= CARD 2 : MOVEMENT ================= */}
                     <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-5">
-                        <h2 className="text-lg font-semibold text-blue-400 mb-4">
+                        <h2 className="text-lg font-semibold text-primary-200 mb-4">
                             Movement
                         </h2>
 
@@ -359,9 +359,9 @@ export const RobatButton = () => {
                             {movementButtons.map((btn) => (
                                 <div
                                     key={btn}
-                                    className="flex justify-between items-center p-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition"
+                                    className="flex justify-between items-center p-3 bg-primary-800 rounded-xl hover:bg-primary-700 transition"
                                 >
-                                    <span className="capitalize text-gray-300">
+                                    <span className="capitalize text-secondary-200">
                                         {btn}
                                     </span>
 

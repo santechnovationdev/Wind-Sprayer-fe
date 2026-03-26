@@ -10,13 +10,13 @@ export default function Header() {
   const { isAuth, handleLogout } = useContext(DContext)
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 shadow-lg">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary-900 via-primary-700 to-secondary-900 shadow-lg">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 md:p-6">
         <a href="/" className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-emerald-500/80 flex items-center justify-center text-white font-black">W</div>
+          <div className="h-10 w-10 rounded-full bg-primary-500/90 flex items-center justify-center text-white font-black">W</div>
           <div>
-            <p className="text-lg font-bold tracking-tight text-white">Wind Sprayer</p>
-            <p className="text-xs text-cyan-200">Smart farm automation</p>
+            <p className="text-lg font-bold tracking-tight text-primary-50">Wind Sprayer</p>
+            <p className="text-xs text-primary-200">Smart farm automation</p>
           </div>
         </a>
 
@@ -28,14 +28,14 @@ export default function Header() {
           {isAuth ? (
             <button
               onClick={handleLogout}
-              className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 transition"
+              className="rounded-full bg-secondary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary-600 transition"
             >
               Logout
             </button>
           ) : (
             <button
               onClick={() => (window.location.href = '/login')}
-              className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-600 transition"
+              className="rounded-full bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 transition"
             >
               Login
             </button>
@@ -53,14 +53,14 @@ export default function Header() {
       </nav>
 
       <Dialog open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} className="md:hidden">
-        <div className="fixed inset-0 bg-slate-900/70" aria-hidden="true" />
-        <DialogPanel className="fixed right-0 top-0 h-full w-full max-w-sm bg-slate-950 p-5 shadow-2xl">
+        <div className="fixed inset-0 bg-primary-900/70" aria-hidden="true" />
+        <DialogPanel className="fixed right-0 top-0 h-full w-full max-w-sm bg-primary-950 p-5 shadow-2xl">
           <div className="flex items-center justify-between mb-6">
-            <p className="text-lg font-semibold text-white">Menu</p>
+            <p className="text-lg font-semibold text-primary-50">Menu</p>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-white hover:bg-white/20"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary-600/50 text-white hover:bg-primary-600"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon className="h-5 w-5" />

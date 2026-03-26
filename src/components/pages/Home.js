@@ -7,8 +7,8 @@ import { Loading } from "../blocks/Loading";
 
 
 const CHART_CONFIG = [
-  { key: "field1", label: "Wind Generation", color: "red" },
-  { key: "field2", label: "Battery FOC", color: "green" },
+  { key: "field1", label: "Wind Generation", color: "#10b981" },
+  { key: "field2", label: "Battery FOC", color: "#22c55e" },
 ];
 
 const CONTROLS = {
@@ -22,11 +22,11 @@ const CONTROLS = {
 };
 
 function Home() {
-  const {BeURL}=useContext(DContext)
+  const { BeURL } = useContext(DContext)
   const [feeds, setFeeds] = useState([]);
-  const [latest,setLatest]= useState(null)
+  const [latest, setLatest] = useState(null)
 
-  console.log("feeds" , feeds)
+  console.log("feeds", feeds)
 
   const url = process.env.REACT_APP_ThinkSpeak_URL;
 
@@ -57,7 +57,7 @@ function Home() {
     return () => clearInterval(interval);
   }, [url]);
 
-  
+
 
   // Transform Data (Memoized)
   const chartData = useMemo(() => {
@@ -106,23 +106,23 @@ function Home() {
 
 
 
-  useEffect(()=>{
-       fetch(`${BeURL}/feed-values`,{
-        method : 'POST',
-        credentials : 'include',
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({ feeds })
-       })
-       .then(res=>res.json())
-       .then(data=>{
-        console.log("data" , data)
-       })
-       .catch(err=>{
-        console.log("Error in feeds" , err)
-       })
-  },[feeds,BeURL])
+  useEffect(() => {
+    fetch(`${BeURL}/feed-values`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ feeds })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("data", data)
+      })
+      .catch(err => {
+        console.log("Error in feeds", err)
+      })
+  }, [feeds, BeURL])
 
 
   const windGeneration = latest?.field1
@@ -138,7 +138,7 @@ function Home() {
   ];
 
   // Loading State
-  if (!chartData.length) {
+  if (chartData.length) {
     return <Loading />;
   }
 
@@ -148,32 +148,32 @@ function Home() {
       <RobatButton />
 
 
-      <div className="bg-indigo-100 rounded-xl p-3">
-        <h2 className="text-xl font-semibold">Latest Value</h2>
+      <div className="bg-primary-100 rounded-xl p-3 border border-primary-200 shadow-sm">
+        <h2 className="text-xl font-semibold text-primary-800">Latest Value</h2>
         <div className="w-full mx-auto mt-2 px-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* LEFT SIDE */}
           <div className="flex flex-col gap-4 h-full">
 
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-5 shadow-lg flex-1 flex flex-col justify-between">
-              <p className="text-sm text-gray-400 mb-2">Wind Generation</p>
+            <div className="bg-primary-900 border border-primary-700 rounded-2xl p-5 shadow-lg flex-1 flex flex-col justify-between">
+              <p className="text-sm text-primary-200 mb-2">Wind Generation</p>
               <p className="text-3xl font-bold text-white">{windGeneration || "-"}</p>
             </div>
 
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-5 shadow-lg flex-1 flex flex-col justify-between">
-              <p className="text-sm text-gray-400 mb-2">Battery FOC</p>
+            <div className="bg-primary-900 border border-primary-700 rounded-2xl p-5 shadow-lg flex-1 flex flex-col justify-between">
+              <p className="text-sm text-primary-200 mb-2">Battery FOC</p>
               <p className="text-3xl font-bold text-white">{batteryFoc || "-"}</p>
             </div>
 
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="border border-gray-800 bg-gray-900 shadow-xl rounded-2xl p-6 flex flex-col h-full">
+          <div className="border border-primary-700 bg-primary-900 shadow-xl rounded-2xl p-6 flex flex-col h-full">
 
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-bold text-blue-400">🌬️ Wind Direction</h2>
+              <h2 className="text-xl font-bold text-secondary-300">🌬️ Wind Direction</h2>
 
-              <p className="text-xs text-green-400 flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <p className="text-xs text-secondary-200 flex items-center gap-2">
+                <span className="w-2 h-2 bg-secondary-200 rounded-full animate-pulse"></span>
                 Live Data
               </p>
             </div>
