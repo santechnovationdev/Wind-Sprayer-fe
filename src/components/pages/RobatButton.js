@@ -1,207 +1,48 @@
-﻿// import React, { useState, useEffect } from "react";
+﻿import React, { useEffect, useState } from "react";
 
-// export const RobatButton = () => {
-//     const API_KEY = "363JOAYIEASLABA7";
+const API_KEY = "1M1U0ROK5S25TR85";
+const MOVEMENT_BUTTONS = [
+    { key: "forward", label: "Forward" },
+    { key: "backward", label: "Backward" },
+    { key: "right", label: "Right" },
+    { key: "left", label: "Left" },
+];
 
-//     const [mode, setMode] = useState("manual");
-//     const [activeMove, setActiveMove] = useState(null);
-//     const [timer, setTimer] = useState(0);
-//     const [isLocked, setIsLocked] = useState(false);
-//     const [message, setMessage] = useState("MANUAL MODE ON");
+const formatThingSpeakUrl = (payload) => {
+    const params = new URLSearchParams({
+        api_key: API_KEY,
+        field1: String(payload.forward),
+        field2: String(payload.backward),
+        field3: String(payload.right),
+        field4: String(payload.left),
+        field5: String(payload.auto),
+        field6: String(payload.manual),
+        field7: String(payload.sprayer),
+    });
+    return `https://api.thingspeak.com/update?${params.toString()}`;
+};
 
-//     const sendToThingSpeak = (fields) => {
-//         const url = `https://api.thingspeak.com/update?api_key=${API_KEY}&field1=${fields[0]}&field2=${fields[1]}&field3=${fields[2]}&field4=${fields[3]}&field5=${fields[4]}&field6=${fields[5]}`;
-//         fetch(url).catch(() => { });
-//     };
-
-//     const makePayload = (move, currentMode) => {
-//         const fields = [0, 0, 0, 0, 0, 0];
-
-//         if (currentMode === "auto") fields[4] = 1;
-//         else fields[5] = 1;
-
-//         if (move !== null) fields[move] = 1;
-
-//         return fields;
-//     };
-
-//     // Timer
-//     useEffect(() => {
-//         let interval;
-
-//         if (timer > 0) {
-//             interval = setInterval(() => {
-//                 setTimer((prev) => prev - 1);
-//             }, 1000);
-//         } else if (timer === 0 && isLocked) {
-//             setIsLocked(false); // unlock
-//         }
-
-//         return () => clearInterval(interval);
-//     }, [timer]);
-
-//     // Mode change (LOCK APPLIED)
-//     const handleMode = (type) => {
-//         if (isLocked) return; // 🚫 block during lock
-
-//         setMode(type);
-//         setActiveMove(null);
-//         setTimer(15);
-//         setIsLocked(true);
-
-//         sendToThingSpeak(makePayload(null, type));
-//         setMessage(`${type.toUpperCase()} MODE ON`);
-//     };
-
-//     // Movement
-//     const handleMovement = (index, name) => {
-//         if (mode === "manual") return;
-
-//         // Same OFF allow
-//         if (activeMove === index) {
-//             setActiveMove(null);
-//             setTimer(0);
-//             setIsLocked(false);
-
-//             sendToThingSpeak(makePayload(null, "auto"));
-//             setMessage("AUTO MODE ON");
-//             return;
-//         }
-
-//         if (isLocked) return; // 🚫 block
-
-//         setActiveMove(index);
-//         setTimer(15);
-//         setIsLocked(true);
-
-//         sendToThingSpeak(makePayload(index, "auto"));
-//         setMessage(`AUTO + ${name.toUpperCase()} ON`);
-//     };
-
-//     const Switch = ({ active, onClick, disabled }) => (
-//         <div
-//             onClick={!disabled ? onClick : null}
-//             className={`w-14 h-7 flex items-center rounded-full p-1 transition ${active ? "bg-green-500" : "bg-gray-300"
-//                 } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-//         >
-//             <div
-//                 className={`bg-white w-5 h-5 rounded-full shadow transform transition ${active ? "translate-x-7" : ""
-//                     }`}
-//             />
-//         </div>
-//     );
-
-//     const movement = [
-//         { name: "Forward", index: 0 },
-//         { name: "Backward", index: 1 },
-//         { name: "Right", index: 2 },
-//         { name: "Left", index: 3 },
-//     ];
-//     return (
-//         <div className="bg-gradient-to-br from-primary-50 via-white to-primary-100 flex items-center justify-center p-6 rounded-2xl shadow-xl border">
-//             <div className="w-full max-w-5xl space-y-6">
-
-//                 {/* Header Card */}
-//                 <div className="bg-white p-6 rounded-3xl shadow-lg text-center transition hover:shadow-xl">
-//                     <h1 className="text-3xl font-bold tracking-tight">🤖 Robot Control</h1>
-
-//                     <p className="mt-3 text-gray-600 font-medium text-lg">
-//                         {message}
-//                     </p>
-
-//                     {timer > 0 && (
-//                         <p className="text-yellow-500 font-semibold bg-yellow-100 rounded-xl">
-//                             Please wait... Next action in {timer}s
-//                         </p>
-//                     )}
-//                 </div>
-
-//                 {/* Main Section */}
-//                 <div className="grid md:grid-cols-2 gap-6">
-
-//                     {/* Mode Card */}
-//                     <div className="bg-white p-6 rounded-3xl shadow-md hover:shadow-lg transition">
-//                         <h2 className="text-center font-semibold text-lg mb-5 text-gray-700">
-//                             ⚙️ Mode Selection
-//                         </h2>
-
-//                         <div className="space-y-4">
-//                             <div className="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-//                                 <span className="font-medium text-gray-700">Auto</span>
-//                                 <Switch
-//                                     active={mode === "auto"}
-//                                     onClick={() => handleMode("auto")}
-//                                 />
-//                             </div>
-
-//                             <div className="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-//                                 <span className="font-medium text-gray-700">Manual</span>
-//                                 <Switch
-//                                     active={mode === "manual"}
-//                                     onClick={() => handleMode("manual")}
-//                                 />
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     {/* Movement Card */}
-//                     <div className="bg-white p-6 rounded-3xl shadow-md hover:shadow-lg transition">
-//                         <h2 className="text-center font-semibold text-lg mb-5 text-gray-700">
-//                             Robot Movement
-//                         </h2>
-
-//                         <div className="space-y-4">
-//                             {movement.map((btn) => (
-//                                 <div
-//                                     key={btn.index}
-//                                     className="flex justify-between items-center bg-gray-50 p-3 rounded-xl hover:bg-gray-100 transition"
-//                                 >
-//                                     <span className="font-medium text-gray-700">
-//                                         {btn.name}
-//                                     </span>
-
-//                                     <Switch
-//                                         active={activeMove === btn.index}
-//                                         onClick={() => handleMovement(btn.index, btn.name)}
-//                                         disabled={
-//                                             mode === "manual" ||
-//                                             (isLocked && activeMove !== btn.index)
-//                                         }
-//                                     />
-//                                 </div>
-//                             ))}
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useEffect } from "react";
+const ToggleButton = ({ active, onClick, disabled }) => (
+    <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        className={`inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold transition ${active ? "bg-emerald-600 text-white shadow-sm" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+            } ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+    >
+        {active ? "Active" : "Off"}
+    </button>
+);
 
 export const RobatButton = () => {
-    const API_KEY = "1M1U0ROK5S25TR85";
-
     const [isAuto, setIsAuto] = useState(false);
     const [activeButton, setActiveButton] = useState(null);
     const [timer, setTimer] = useState(0);
     const [isLocked, setIsLocked] = useState(false);
     const [message, setMessage] = useState("MANUAL MODE");
 
-    // ================= API =================
     const sendToThingSpeak = (btn, autoMode) => {
-        const data = {
+        const payload = {
             forward: 0,
             backward: 0,
             right: 0,
@@ -211,21 +52,15 @@ export const RobatButton = () => {
             manual: autoMode ? 0 : 1,
         };
 
-        if (btn) data[btn] = 1;
+        if (btn) {
+            payload[btn] = 1;
+        }
 
-        const url = `https://api.thingspeak.com/update?api_key=${API_KEY}
-        &field1=${data.forward}
-        &field2=${data.backward}
-        &field3=${data.right}
-        &field4=${data.left}
-        &field5=${data.auto}
-        &field6=${data.manual}
-        &field7=${data.sprayer}`;
-
-        fetch(url).catch(() => { });
+        fetch(formatThingSpeakUrl(payload)).catch(() => {
+            // ignore errors for now
+        });
     };
 
-    // ================= TIMER =================
     useEffect(() => {
         let interval;
 
@@ -240,146 +75,127 @@ export const RobatButton = () => {
         return () => clearInterval(interval);
     }, [timer, isLocked]);
 
-    // ================= MODE =================
     const handleModeToggle = () => {
         if (isLocked || activeButton !== null) return;
 
-        const newMode = !isAuto;
-        setIsAuto(newMode);
-
+        const nextMode = !isAuto;
+        setIsAuto(nextMode);
         setTimer(15);
         setIsLocked(true);
-
-        sendToThingSpeak(null, newMode);
-        setMessage(newMode ? "AUTO MODE ON" : "MANUAL MODE ON");
+        sendToThingSpeak(null, nextMode);
+        setMessage(nextMode ? "AUTO MODE ON" : "MANUAL MODE ON");
     };
 
-    // ================= CONTROL BUTTONS =================
-    const handleToggle = (btn) => {
-        // OFF
+    const handleControlToggle = (btn) => {
         if (activeButton === btn) {
             setActiveButton(null);
             setTimer(0);
             setIsLocked(false);
-
             sendToThingSpeak(null, isAuto);
             setMessage(isAuto ? "AUTO MODE" : "MANUAL MODE");
             return;
         }
 
-        // BLOCK
         if (activeButton !== null || isLocked) return;
 
-        // ON
         setActiveButton(btn);
         setTimer(15);
         setIsLocked(true);
-
         sendToThingSpeak(btn, isAuto);
         setMessage(`${btn.toUpperCase()} ON`);
     };
 
-    // ================= SWITCH =================
-    const Switch = ({ active, onClick, disabled }) => (
-        <div
-            onClick={!disabled ? onClick : null}
-            className={`w-14 h-7 flex items-center rounded-full p-1 transition ${active ? "bg-primary-600" : "bg-gray-600"
-                } ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
-        >
-            <div
-                className={`bg-gray-200 w-5 h-5 rounded-full shadow transform transition ${active ? "translate-x-7" : ""
-                    }`}
-            />
-        </div>
-    );
-
-    const movementButtons = ["forward", "backward", "right", "left"];
-
     return (
-        <div className="bg-primary-100 px-5 py-5 rounded-xl">
-            <div className="mx-auto space-y-6">
-                {/* HEADER */}
-                <div className="bg-gradient-to-br from-primary-900 via-primary-700 to-secondary-900 rounded-2xl shadow-xl border border-primary-800 p-5 w-full">
-                    <h1 className="text-xl md:text-2xl font-bold text-center text-primary-200">
-                        🤖 Wind Spray Control
-                    </h1>
-
-                    <p className="text-center text-secondary-100 mt-2">{message}</p>
-
-                    {timer > 0 && (
-                        <p className="text-center text-secondary-200 font-semibold mt-2">
-                            ⏳ Wait {timer}s
-                        </p>
-                    )}
+        <section className=" border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/30">
+            <div className="grid w-full mx-auto max-w-7xl">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <p className="text-sm uppercase tracking-[0.25em] text-slate-500">Robot dashboard</p>
+                    <h2 className="mt-3 text-3xl font-semibold text-slate-900">Wind Sprayer Control</h2>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                    {/* ================= CARD 1 : MODE + SPRAYER ================= */}
-                    <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-5">
-                        <h2 className="text-lg font-semibold text-primary-200 mb-4">
-                            Mode & Sprayer
-                        </h2>
-
-                        <div className="space-y-3">
-                            {/* AUTO / MANUAL */}
-                            <div className="flex justify-between items-center p-3 bg-primary-800 rounded-xl">
-                                <span className="text-secondary-200">
-                                    Mode (Auto / Manual)
-                                </span>
-                                <Switch
-                                    active={isAuto}
-                                    onClick={handleModeToggle}
-                                    disabled={activeButton !== null || isLocked}
-                                />
-                            </div>
-
-                            {/* SPRAYER */}
-                            <div className="flex justify-between items-center p-3 bg-primary-800 rounded-xl">
-                                <span className="text-secondary-200">Sprayer</span>
-                                <Switch
-                                    active={activeButton === "sprayer"}
-                                    onClick={() => handleToggle("sprayer")}
-                                    disabled={
-                                        (activeButton !== null &&
-                                            activeButton !== "sprayer") ||
-                                        isLocked
-                                    }
-                                />
-                            </div>
-                        </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                    <div className="rounded-3xl bg-emerald-50 p-4 text-slate-900 ring-1 ring-emerald-100">
+                        <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Status</p>
+                        <p className="mt-2 text-xl font-semibold">{message}</p>
                     </div>
-
-                    {/* ================= CARD 2 : MOVEMENT ================= */}
-                    <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-5">
-                        <h2 className="text-lg font-semibold text-primary-200 mb-4">
-                            Movement
-                        </h2>
-
-                        <div className="space-y-3">
-                            {movementButtons.map((btn) => (
-                                <div
-                                    key={btn}
-                                    className="flex justify-between items-center p-3 bg-primary-800 rounded-xl hover:bg-primary-700 transition"
-                                >
-                                    <span className="capitalize text-secondary-200">
-                                        {btn}
-                                    </span>
-
-                                    <Switch
-                                        active={activeButton === btn}
-                                        onClick={() => handleToggle(btn)}
-                                        disabled={
-                                            (activeButton !== null &&
-                                                activeButton !== btn) ||
-                                            isLocked
-                                        }
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                    <div className="rounded-3xl bg-slate-50 p-4 text-slate-900 ring-1 ring-slate-200">
+                        <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Timer</p>
+                        <p className="mt-2 text-xl font-semibold text-emerald-700">{timer > 0 ? `${timer}s` : "Ready"}</p>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+                <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+                    <div className="flex items-center justify-between gap-4">
+                        <div>
+                            <h3 className="text-lg font-semibold text-slate-900">Mode control</h3>
+                            <p className="text-sm text-slate-500">Switch between manual and automatic operation.</p>
+                        </div>
+                        <ToggleButton
+                            active={isAuto}
+                            onClick={handleModeToggle}
+                            disabled={activeButton !== null || isLocked}
+                        />
+                    </div>
+
+                    <div className="mt-6 grid gap-3">
+                        <div className="rounded-3xl border border-emerald-100 bg-white p-4">
+                            <p className="text-sm text-slate-500">Current mode</p>
+                            <p className="mt-2 text-xl font-semibold text-slate-900">{isAuto ? "Automatic" : "Manual"}</p>
+                        </div>
+                        <div className="rounded-3xl border border-slate-200 bg-white p-4">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-slate-500">Sprayer</p>
+                                    <p className="mt-1 text-sm text-slate-400">Toggle the spray output</p>
+                                </div>
+                                <ToggleButton
+                                    active={activeButton === "sprayer"}
+                                    onClick={() => handleControlToggle("sprayer")}
+                                    disabled={(activeButton !== null && activeButton !== "sprayer") || isLocked}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+                    <div>
+                        <h3 className="text-lg font-semibold text-slate-900">Movement controls</h3>
+                        <p className="text-sm text-slate-500">Activate one direction at a time.</p>
+                    </div>
+                    <div className="mt-6 grid gap-3">
+                        {MOVEMENT_BUTTONS.map((item) => {
+                            const active = activeButton === item.key;
+                            const disabled = (activeButton !== null && !active) || isLocked;
+                            return (
+                                <button
+                                    key={item.key}
+                                    type="button"
+                                    onClick={() => handleControlToggle(item.key)}
+                                    disabled={disabled}
+                                    className={`w-full rounded-3xl border px-4 py-4 text-left transition ${active
+                                            ? "border-emerald-500 bg-emerald-50 text-emerald-800 shadow-sm"
+                                            : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                                        } ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+                                >
+                                    <div className="flex items-center justify-between gap-3">
+                                        <div>
+                                            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-900">{item.label}</p>
+                                            <p className="mt-1 text-xs text-slate-500">{active ? "Running" : disabled ? "Locked" : "Tap to activate"}</p>
+                                        </div>
+                                        <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full ${active ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                            {active ? "ON" : "OFF"}
+                                        </span>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
     );
 };

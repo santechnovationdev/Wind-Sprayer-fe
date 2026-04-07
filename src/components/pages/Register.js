@@ -48,51 +48,54 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-950 via-primary-800 to-secondary-950 px-4 py-10">
-            <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+        <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-10 transition-colors duration-300 dark:bg-slate-950">
+            <div className="w-full max-w-md rounded-[32px] border border-slate-200/70 bg-white/90 p-8 shadow-2xl shadow-slate-900/10 backdrop-blur-xl transition dark:border-slate-800/70 dark:bg-slate-900/95 dark:shadow-slate-950/40">
                 <div className="text-center mb-8">
                     <img
                         src={LoginImg}
                         alt="Wind Sprayer Logo"
-                        className="mx-auto h-20 w-20 rounded-full shadow-lg border border-white/20"
+                        className="mx-auto h-20 w-20 rounded-full border border-slate-200/25 shadow-lg dark:border-slate-700/60"
                     />
-                    <h1 className="text-3xl font-bold tracking-tight text-primary-200 mt-4">Create your account</h1>
-                    <p className="mt-2 text-sm text-primary-100">Secure setup in seconds with Wind Sprayer</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 mt-4 dark:text-slate-100">Create your account</h1>
+                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                        Secure setup in seconds for your farm automation dashboard.
+                    </p>
                 </div>
 
-                <form onSubmit={handleRegister} className="space-y-4">
+                <form onSubmit={handleRegister} className="space-y-5">
                     {[
-                        { value: name, onChange: setName, type: 'text', placeholder: 'Full Name' },
-                        { value: contact, onChange: setContact, type: 'tel', placeholder: 'Contact Number' },
-                        { value: email, onChange: setEmail, type: 'email', placeholder: 'Email Address' },
-                        { value: password, onChange: setPassword, type: 'password', placeholder: 'Password' },
-                        { value: confirmPassword, onChange: setConfirmPassword, type: 'password', placeholder: 'Confirm Password' },
+                        { label: 'Full Name', value: name, onChange: setName, type: 'text', autoComplete: 'name' },
+                        { label: 'Contact Number', value: contact, onChange: setContact, type: 'tel', autoComplete: 'tel' },
+                        { label: 'Email Address', value: email, onChange: setEmail, type: 'email', autoComplete: 'email' },
+                        { label: 'Password', value: password, onChange: setPassword, type: 'password', autoComplete: 'new-password' },
+                        { label: 'Confirm Password', value: confirmPassword, onChange: setConfirmPassword, type: 'password', autoComplete: 'new-password' },
                     ].map((field, idx) => (
                         <div key={idx}>
-                            <label className="block text-sm text-slate-200 font-medium mb-1">{field.placeholder}</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{field.label}</label>
                             <input
                                 type={field.type}
                                 value={field.value}
                                 onChange={(e) => field.onChange(e.target.value)}
-                                placeholder={field.placeholder}
-                                className="w-full mt-1 p-3 rounded-xl bg-slate-900/80 border border-green-600 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
+                                placeholder={field.label}
+                                autoComplete={field.autoComplete}
+                                className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-500"
                             />
                         </div>
                     ))}
 
-                    {error && <p className="text-center text-sm text-rose-400">{error}</p>}
+                    {error && <p className="text-center text-sm text-rose-500">{error}</p>}
 
                     <button
                         type="submit"
-                        className="w-full py-3 rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition"
+                        className="w-full rounded-2xl bg-gradient-to-r from-primary-500 to-secondary-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/20 transition hover:brightness-110"
                     >
                         Register
                     </button>
                 </form>
 
-                <p className="text-sm text-center text-primary-100 mt-5">
+                <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                     Already have an account?{' '}
-                    <a href="/login" className="text-primary-200 font-semibold hover:text-primary-100 underline">
+                    <a href="/login" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200">
                         Log in
                     </a>
                 </p>

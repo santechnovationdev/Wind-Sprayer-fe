@@ -22,3 +22,18 @@
         width: 35%;
     }
 }
+
+body {
+  min-height: 100vh;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+html.dark body {
+  background-color: #020617;
+  color: #e2e8f0;
+}
+
+html:not(.dark) body {
+  background-color: #eef2ff;
+  color: #0f172a;
+}
